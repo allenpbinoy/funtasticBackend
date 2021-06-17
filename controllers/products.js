@@ -134,7 +134,7 @@ export const createRecent = async (req, res) => {
     try {
         await newRecent.save();
 
-        res.status(201).json(newRecent );
+        res.status(201).json(newRecent);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
