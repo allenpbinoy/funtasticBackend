@@ -31,6 +31,7 @@ const recentSchema = mongoose.Schema({
         type: Date,
         default: new Date(),
     },
+    itemid:String
 })
 
 export const  RecentProducts = mongoose.model('RecentProducts', recentSchema);

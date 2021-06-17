@@ -127,9 +127,9 @@ export const searchProduct = async (req, res) => {
 //Recent
 
 export const createRecent = async (req, res) => {
-    const { pname, description,  price, categories,image,imageId,createdAt } = req.body;
+    const { pname, description,  price, categories,image,imageId,createdAt, itemId } = req.body;
 
-    const newRecent= new RecentProducts({  pname, description,  price, categories,image,imageId,createdAt })
+    const newRecent= new RecentProducts({  pname, description,  price, categories,image,imageId,createdAt,itemId })
 
     try {
         await newRecent.save();
