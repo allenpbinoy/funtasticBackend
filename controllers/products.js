@@ -136,18 +136,19 @@ export const createRecent = async (req, res) => {
         var query = querypattern;   
         
     
-        const productDetails = await ProductDetails.find(query);
+        const Recent = await RecentProducts.find(query);
+        console.log(Recent)
         
-        if(productDetails == null){
+        //if(Recent == []){
            
         await newRecent.save();
  
         res.status(201).json(newRecent);
-        }
-        else{
-            res.status(401).json("already exist")
+       //}
+        //else{
+         //   res.status(401).json("already exist")
             
-        }
+        //}
 
 
 
