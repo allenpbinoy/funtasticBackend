@@ -2,6 +2,7 @@ import { name } from 'ci-info';
 import express from 'express';
 import mongoose from 'mongoose';
 
+
 import{ProductDetails, RecentProducts} from '../models/productDetails.js';
 
 const router = express.Router();
@@ -77,16 +78,8 @@ export const categoryProduct = async (req, res) => {
  try {
     const filters = req.query;
     console.log(filters)
-    /*const filteredUsers = await ProductDetails.filter(user => {
-      let isValid = true;
-      for (key in filters) {
-        console.log(key, user[key], filters[key]);
-        isValid = isValid && user[key] == filters[key];
-
-      }
-      return isValid;
-    });
-    res.send(filteredUsers);*/var query = filters;   
+    
+    var query = filters;   
     var mysort = { pname: 1 };
     const productDetails = await ProductDetails.find(query).sort(mysort);
              
@@ -132,9 +125,32 @@ export const createRecent = async (req, res) => {
     const newRecent= new RecentProducts({  pname, description,  price, categories,image,imageId,createdAt,itemId })
 
     try {
-        await newRecent.save();
 
+        const querypattern = {
+            pname: {
+                $regex: itemId,
+             
+            }
+        };
+        console.log(querypattern)
+        var query = querypattern;   
+        
+    
+        const productDetails = await ProductDetails.find(query);
+        
+        if(productDetails == null){
+           
+        await newRecent.save();
+ 
         res.status(201).json(newRecent);
+        }
+        else{
+            res.status(401).json("already exist")
+            
+        }
+
+
+
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
@@ -145,10 +161,9 @@ export const getRecent = async (req, res) => {
         var mysort = { pname: 1 };
 
 
-        const newRecent = await RecentProducts.find().sort(mysort);
+        const newRecent = await RecentProducts.find();
 
                 
-
         res.status(200).json(newRecent);
         
     } catch (error) {
